@@ -1,0 +1,58 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello Thymeleaf</title>
+    </head>
+    <body>
+        <div>
+          <h1>社員詳細画面</h1>
+        </div>
+        <form th:action="@{/empDetail/edit}" method="post"name="empDetailForm" th:object="${empDetailInfo}">
+          <div>
+            <label>社員ID</label><input type="text"th:field="*{empId}">
+          </div>
+          <div>
+            <label>苗字</label><input type="text"th:field="*{lastName}">
+          </div>
+          <div>
+            <label>名前</label><input type="text"th:field="*{firstName}">
+          </div>
+           <div>
+            <label>年齢</label><input type="text"th:field="*{age}">
+          </div>
+          <div>
+            <label>役職</label>
+            <select th:field="*{positionCode}">
+              <option th:value="''" th:text="未選択"></option>
+              <option th:value="'01'" th:text="役員"></option>
+              <option th:value="'02'" th:text="課長"></option>
+              <option th:value="'03'" th:text="係長"></option>
+              <option th:value="'04'" th:text="一般社員"></option>
+            </select>
+          </div>
+          <div>
+            <label>在籍期間</label><input type="text"th:field="*{period}">
+          </div>
+          <div>
+            <label>基本給</label><input type="text"th:field="*{basicSalary}">
+          </div>
+          <div>
+            <label>役職手当</label><input type="text"th:field="*{positionSalary}">
+          </div>
+          <input type="button" value="更新" onClick="createSubmit(0)">
+          <input type="button" value="削除" onClick="createSubmit(1)">
+         </form>
+     <script type="text/javascript">
+       function createSubmit(val) {
+         // エレメントを作成
+         var ele1 = document;
+         var ele2 = document.forms['empDetailForm'];
+         var ele3 = document.forms;
+
+       }
+
+     </script>
+    </body>
+</html>
+

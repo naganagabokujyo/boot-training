@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.training.mapper.EmpMstMapper">
+    <select id="findEmpList"  parameterType="String" resultType="com.example.training.dto.EmpListInfo">
+        SELECT
+          EMP_MST.EMP_ID,
+          CONCAT(EMP_MST.LAST_NAME, EMP_MST.FIRST_NAME) AS NAME,
+          COALESCE(EMP_SALARY.BASIC_SALARY, 0) + COALESCE(EMP_SALARY.POSITION_SALARY, 0) AS SALARY,
+          POSITION_MST.POSITION_NAME
+        FROM
+          EMP_MST
+          LEFT JOIN POSITION_MST
+          ON
+            EMP_MST.POSITION_CODE = POSITION_MST.POSITION_CODE
+          LEFT JOIN EMP_SALARY
+          ON
+            EMP_MST.EMP_ID = EMP_SALARY.EMP_ID
+        <where>
+           <if test="empId != null and empId != ''">
+             EMP_MST.EMP_ID = #{empId}
+           </if>
+            <if test="lastName != null and lastName != ''">
+             AND EMP_MST.LAST_NAME = #{lastName}
+           </if>
+            <if test="firstName != null and firstName != ''">
+             AND EMP_MST.FIRST_NAME = #{firstName}
+           </if>
+            <if test="positionCode != null and positionCode != ''">
+             AND EMP_MST.POSITION_CODE = #{positionCode}
+           </if>
+        </where>
+    </select>
+
+    <select id="findEmpById"  parameterType="String" resultType="com.example.training.dto.EmpDetailInfo">
+        SELECT
+          EMP_MST.EMP_ID,
+          EMP_MST.LAST_NAME,
+          EMP_MST.FIRST_NAME,
+          EMP_MST.AGE,
+          EMP_MST.PERIOD,
+          EMP_MST.POSITION_CODE,
+          EMP_SALARY.BASIC_SALARY,
+          EMP_SALARY.POSITION_SALARY,
+          EMP_MST.UPDATE_DATE AS EMP_MST_UPDATE_DATE,
+          EMP_SALARY.UPDATE_DATE AS EMP_SALARY_UPDATE_DATE
+        FROM
+          EMP_MST
+          LEFT JOIN EMP_SALARY
+          ON
+            EMP_MST.EMP_ID = EMP_SALARY.EMP_ID
+        WHERE
+          EMP_MST.EMP_ID = #{empId}
+
+    </select>
+</mapper>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello Thymeleaf</title>
+    </head>
+    <body>
+        <div>
+          <h1>社員一覧画面</h1>
+        </div>
+        <form th:action="@{/empList/search}" method="post" th:object="${empSearchInfo}">
+          <div>
+            <label>社員ID</label><input type="text"th:field="*{empId}">
+          </div>
+          <div>
+            <label>苗字</label><input type="text"th:field="*{lastName}">
+          </div>
+          <div>
+            <label>名前</label><input type="text"th:field="*{firstName}">
+          </div>
+          <div>
+            <label>役職</label>
+            <select th:field="*{positionCode}">
+              <option th:value="''" th:text="未選択"></option>
+              <option th:value="'01'" th:text="役員"></option>
+              <option th:value="'02'" th:text="課長"></option>
+              <option th:value="'03'" th:text="係長"></option>
+              <option th:value="'04'" th:text="一般社員"></option>
+            </select>
+          </div>
+          <div>
+            <input type="submit" value="検索">
+          </div>
+        </form>
+        <div th:each="errMessage : ${empSearchInfo.errMessages}">
+          <label th:text="${errMessage.value}"></label>
+        </div>
+        <div>
+          <label>社員ID</label>
+          <label>氏名</label>
+          <label>給与</label>
+          <label>役職</label>
+        </div>
+
+        <div th:each="emp : ${empSearchInfo.empListInfo}">
+            <label th:text="${emp.empId}"></label>
+            <label th:text="${emp.name}"></label>
+            <label th:text="${#numbers.formatDecimal(emp.salary, 0, 'COMMA', 0, 'POINT')}"></label>
+            <label th:text="${emp.positionName}"></label>
+            <a href="/empList/goDetail" th:href="@{/empList/goDetail(empId=${emp.empId})}">編集</a>
+        </div>
+
+
+
+    <script>
+
+    </script>
+    </body>
+</html>
+
